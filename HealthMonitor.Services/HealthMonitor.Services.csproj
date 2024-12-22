@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HealthMonitor.Framework\HealthMonitor.Framework.csproj" />
+  </ItemGroup>
+
 </Project>

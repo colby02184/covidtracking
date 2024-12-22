@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HealthMonitor.Framework\HealthMonitor.Framework.csproj" />
+    <ProjectReference Include="..\HealthMonitor.Services\HealthMonitor.Services.csproj" />
+  </ItemGroup>
+
 </Project>
