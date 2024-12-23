@@ -1,3 +1,4 @@
+using HealthMonitor.Web;
 using HealthMonitor.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ builder.Services.AddTelerikBlazor();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.SetMiddlewareServices();
 
 var app = builder.Build();
 
