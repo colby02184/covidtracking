@@ -28,9 +28,16 @@
         </GridToolBarTemplate>
         <GridColumns>
             <GridColumn Field="@nameof(CovidCaseViewModel.State)" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.Date)" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.TotalCasesFormatted )" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRateFormatted )" />
+            <GridColumn Field="@nameof(CovidCaseViewModel.Date)">
+                <Template>
+                    @((context as CovidCaseViewModel).Date.ToShortDateString())
+                </Template>
+            </GridColumn>
+            <GridColumn Field="@nameof(CovidCaseViewModel.TotalTestResults )" />
+            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizedCurrently )" />
+            <GridColumn Field="@nameof(CovidCaseViewModel.Positive )" />
+            <GridColumn Field="@nameof(CovidCaseViewModel.Negative )" />
+            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRate )" Title="Hospitalization Rate (%)" />
             <GridCommandColumn Width="300px">
                 <GridCommandButton Command="Edit" Icon="FontIcon.Pencil">Edit</GridCommandButton>
                 <GridCommandButton Command="Save" Icon="FontIcon.Save" ShowInEdit="true">Save</GridCommandButton>

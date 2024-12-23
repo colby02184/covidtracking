@@ -25,6 +25,14 @@ namespace HealthMonitor.Data
             // Add data to the database
             foreach (var data in covidDataList.Where(data => !dbContext.CovidData.Any(cd => cd.Date == data.Date)))
             {
+                if (data is { HospitalizedCurrently: not null, TotalTestResults: > 0 })
+                {
+                    data.HospitalizationRate = Math.Round((double)data.HospitalizedCurrently.Value / data.TotalTestResults.Value * 100, 2);
+                }
+                else
+                {
+                    data.HospitalizationRate = null; // Set to null if data is incomplete
+                }
                 dbContext.CovidData.Add(data);
             }
 

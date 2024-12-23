@@ -22,6 +22,7 @@ namespace HealthMonitor.Framework
         public int? Recovered { get; set; }
         public string? DataQualityGrade { get; set; } 
         public string? FIPS { get; set; } 
-        public string? LastUpdateEt { get; set; } 
+        public string? LastUpdateEt { get; set; }
+        public double? HospitalizationRate { get; set; }
     }
 }
