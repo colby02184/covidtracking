@@ -2,12 +2,18 @@
 using HealthMonitor.Framework;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HealthMonitor.Services.CQRS.Commands
 {
-    public class UpdateCovidCase
+    public class DeleteCovidCase
     {
-        public record Command(CommandParameters<CovidData> Parameters) : ICommand<CovidData>, IRequest<Response<bool>>, IRemoteableRequest;
+        public record Command(CommandParameters<CovidData> Parameters)
+            : ICommand<CovidData>, IRequest<Response<bool>>, IRemoteableRequest;
 
         public class Handler : CommandHandler<Command, CovidData, Response<bool>>
         {
@@ -23,7 +29,7 @@ namespace HealthMonitor.Services.CQRS.Commands
             {
                 try
                 {
-                    await _repository.UpdateAsync(command.Parameters.Data);
+                    await _repository.DeleteAsync(command.Parameters.Data.Id);
                     return new Response<bool>(true);
                 }
                 catch (Exception e)

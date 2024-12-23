@@ -97,6 +97,14 @@ namespace HealthMonitor.Dashboard.Components.Pages
                     ThemeColor = ThemeConstants.AppBar.ThemeColor.Success
                 });
             }
+            else
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "Something went wrong!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Error
+                });
+            }
             await LoadData();
             StateHasChanged();
         }
@@ -104,13 +112,63 @@ namespace HealthMonitor.Dashboard.Components.Pages
         async Task Add(GridCommandEventArgs args)
         {
             ((CovidCaseViewModel)args.Item).Id = Data.Any() ? Data.Max(item => item.Id) + 1 : 1;
+            var response = await Bus.Send(new AddCovidCase.Command(new CommandParameters<CovidData>()
+            {
+                Data = Mapper.Map<CovidCaseViewModel, CovidData>((CovidCaseViewModel)args.Item),
+                PageOrComponent = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).Segments.LastOrDefault(),
+                UserName = "SomeUser"
+            }));
 
-            Data.Add((CovidCaseViewModel)args.Item);
+
+            if (response.IsSuccess)
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "New Covid Case Added Successfully!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Success
+                });
+            }
+            else
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "Something went wrong!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Error
+                });
+            }
+            await LoadData();
+            StateHasChanged();
         }
 
         async Task Delete(GridCommandEventArgs args)
         {
             Data.RemoveAll(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
+
+            var response = await Bus.Send(new DeleteCovidCase.Command(new CommandParameters<CovidData>()
+            {
+                Data = Mapper.Map<CovidCaseViewModel, CovidData>((CovidCaseViewModel)args.Item),
+                PageOrComponent = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).Segments.LastOrDefault(),
+                UserName = "SomeUser"
+            }));
+
+            if (response.IsSuccess)
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "Delete Successful!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Success
+                });
+            }
+            else
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "Something went wrong!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Error
+                });
+            }
+            await LoadData();
+            StateHasChanged();
         }
     }
 }
