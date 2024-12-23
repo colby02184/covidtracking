@@ -40,14 +40,15 @@ namespace HealthMonitor.Dashboard.Components.Pages
         {
             var response = await Bus.Send(new GetAllCovidCases.Query());
             Data = response.IsSuccess ? Mapper.Map <List<CovidData> ,List <CovidCaseViewModel>>(response.Data) : new();
-            HeatmapDataList = Data
-                .Where(data => data.HospitalizationRate.HasValue) // Filter valid rates
-                .Select(data => new HeatmapDataViewModel
-                {
-                    State = data.State,
-                    Date = data.Date,
-                    HospitalizationRate = data.HospitalizationRate
-                }).Take(10).ToList();
+            Data.OrderByDescending(p => p.Positive);
+            //HeatmapDataList = Data
+            //    .Where(data => data.HospitalizationRate.HasValue) // Filter valid rates
+            //    .Select(data => new HeatmapDataViewModel
+            //    {
+            //        State = data.State,
+            //        Date = data.Date,
+            //        HospitalizationRate = data.HospitalizationRate
+            //    }).Take(10).ToList();
 
         }
 
