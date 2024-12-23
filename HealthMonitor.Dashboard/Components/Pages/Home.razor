@@ -1,12 +1,13 @@
 ﻿@page "/"
 @using HealthMonitor.Dashboard.ViewModels
 
+
 <div class="covid-summary">
-    @if (!_isDataLoaded)
-    {
-        <p>Loading data, please wait...</p>
-    }
-    else
+    <TelerikLoader Visible="@(!_isDataLoaded)"
+                   Size="@ThemeConstants.Loader.Size.Large"
+                   ThemeColor="@ThemeConstants.Loader.ThemeColor.Tertiary"
+                   Type="@LoaderType.ConvergingSpinner" />
+    @if (_isDataLoaded)
     {
         <div class="summary-cards horizontal">
             <div class="metric-card">
@@ -27,6 +28,5 @@
             </div>
         </div>
     }
-    
 </div>
 

@@ -15,11 +15,24 @@ namespace HealthMonitor.Dashboard.Components.Pages
         [Inject] public IMapper Mapper { get; set; }
         public List<CovidCaseViewModel> Data { get; set; }
 
+        private bool _isDataLoaded = false;
+
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
 
             await base.OnInitializedAsync();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (!_isDataLoaded)
+            {
+                await LoadData();
+                _isDataLoaded = true;
+                StateHasChanged();
+            }
+
         }
 
         private async Task LoadData()
@@ -28,23 +41,23 @@ namespace HealthMonitor.Dashboard.Components.Pages
             Data = response.IsSuccess ? Mapper.Map <List<CovidData> ,List <CovidCaseViewModel>>(response.Data) : new();
         }
 
-        async Task Update(GridCommandEventArgs args)
-        {
-            var index = Data.FindIndex(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
+        //async Task Update(GridCommandEventArgs args)
+        //{
+        //    var index = Data.FindIndex(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
 
-            Data[index] = (CovidCaseViewModel)args.Item;
-        }
+        //    Data[index] = (CovidCaseViewModel)args.Item;
+        //}
 
-        async Task Add(GridCommandEventArgs args)
-        {
-            ((CovidCaseViewModel)args.Item).Id = Data.Any() ? Data.Max(item => item.Id) + 1 : 1;
+        //async Task Add(GridCommandEventArgs args)
+        //{
+        //    ((CovidCaseViewModel)args.Item).Id = Data.Any() ? Data.Max(item => item.Id) + 1 : 1;
 
-            Data.Add((CovidCaseViewModel)args.Item);
-        }
+        //    Data.Add((CovidCaseViewModel)args.Item);
+        //}
 
-        async Task Delete(GridCommandEventArgs args)
-        {
-            Data.RemoveAll(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
-        }
+        //async Task Delete(GridCommandEventArgs args)
+        //{
+        //    Data.RemoveAll(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
+        //}
     }
 }
