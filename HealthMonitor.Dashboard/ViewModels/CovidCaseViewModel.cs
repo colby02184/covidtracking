@@ -12,5 +12,7 @@
         public int? Negative { get; set; }
         public int? Positive { get; set; }
         public double? HospitalizationRate { get; set; }
+        public double? Latitude { get; set; } // for heatmap
+        public double? Longitude { get; set; } // for heatmap
     }
 }

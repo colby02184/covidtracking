@@ -24,5 +24,7 @@ namespace HealthMonitor.Framework
         public string? FIPS { get; set; } 
         public string? LastUpdateEt { get; set; }
         public double? HospitalizationRate { get; set; }
+        public double? Latitude { get; set; } // for heatmap
+        public double? Longitude { get; set; } // for heatmap
     }
 }

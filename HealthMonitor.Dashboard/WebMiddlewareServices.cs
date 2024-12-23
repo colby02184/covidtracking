@@ -13,7 +13,9 @@ namespace HealthMonitor.Dashboard
             //    : "https://your-api-name.azurewebsites.net"; // D
             services.AddHttpClient<PublisherGateway>(client =>
             {
+                //client.BaseAddress = new Uri("https://localhost:7260/");
                 client.BaseAddress = new Uri("https://healthmonitordashboard20241223070619.azurewebsites.net/");
+                client.Timeout = TimeSpan.FromSeconds(500);
 
             });
             services.AddScoped<IPublisherGateway, PublisherGateway>();

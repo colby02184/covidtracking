@@ -17,4 +17,8 @@
 	  <ProjectReference Include="..\HealthMonitor.Services\HealthMonitor.Services.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\NewFolder\" />
+	</ItemGroup>
+
 </Project>

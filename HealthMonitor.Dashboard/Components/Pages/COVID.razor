@@ -2,75 +2,72 @@
 @page "/Covid"
 @using HealthMonitor.Dashboard.ViewModels
 
+<TelerikNotification @ref="NotificationRef" />
+
 <TelerikLoader Visible="@(!_isDataLoaded)"
                Size="@ThemeConstants.Loader.Size.Large"
                ThemeColor="@ThemeConstants.Loader.ThemeColor.Tertiary"
                Type="@LoaderType.ConvergingSpinner" />
 
 @if (_isDataLoaded)
+
 {
-    <TelerikGrid Data="@Data"
-                 Pageable="true"
-                 PageSize="10"
-                 Sortable="true"
-                 SortMode="@SortMode.Single"
-                 FilterMode="@GridFilterMode.FilterMenu"
-                 Resizable="true"
-                 Groupable="true"
-                 SelectionMode="GridSelectionMode.Single"
-                 Reorderable="true"
-                 EditMode="@GridEditMode.Inline">
-        @*  OnUpdate="@Update"
-    OnCreate="@Add"
-    OnDelete="@Delete"> *@
-        <GridToolBarTemplate>
-            <GridCommandButton Command="Add" Icon="FontIcon.Plus">Add</GridCommandButton>
-        </GridToolBarTemplate>
-        <GridColumns>
-            <GridColumn Field="@nameof(CovidCaseViewModel.State)" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.Date)">
-                <Template>
-                    @((context as CovidCaseViewModel).Date.ToShortDateString())
-                </Template>
-            </GridColumn>
-            <GridColumn Field="@nameof(CovidCaseViewModel.TotalTestResults )" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizedCurrently )" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.Positive )" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.Negative )" />
-            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRate )" Title="Hospitalization Rate (%)" />
-            <GridCommandColumn Width="300px">
-                <GridCommandButton Command="Edit" Icon="FontIcon.Pencil">Edit</GridCommandButton>
-                <GridCommandButton Command="Save" Icon="FontIcon.Save" ShowInEdit="true">Save</GridCommandButton>
-                <GridCommandButton Command="Cancel" Icon="FontIcon.Cancel" ShowInEdit="true">Cancel</GridCommandButton>
-                <GridCommandButton Command="Delete" Icon="FontIcon.Trash">Delete</GridCommandButton>
-            </GridCommandColumn>
-        </GridColumns>
-    </TelerikGrid>
+    <TelerikTileLayout Columns="1"
+                       RowHeight="150px"
+                       Resizable="true"
+                       Reorderable="true">
+        <TileLayoutItems>
+            <TileLayoutItem HeaderText="COVID Data" RowSpan="4">
+                <Content>
+                    <TelerikGrid Data="@Data"
+                                 Pageable="true"
+                                 PageSize="10"
+                                 Sortable="true"
+                                 SortMode="@SortMode.Single"
+                                 FilterMode="@GridFilterMode.FilterMenu"
+                                 Resizable="true"
+                                 Groupable="true"
+                                 SelectionMode="GridSelectionMode.Single"
+                                 Reorderable="true"
+                                 EditMode="@GridEditMode.Inline"
+                                 OnUpdate="@Update"
+                                 OnCreate="@Add"
+                                 OnDelete="@Delete">
+                        <GridToolBarTemplate>
+                            <GridCommandButton Command="Add" Icon="FontIcon.Plus">Add</GridCommandButton>
+                        </GridToolBarTemplate>
+                        <GridColumns>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.State)" />
+                            <GridColumn Field="@nameof(CovidCaseViewModel.Date)">
+                                <Template>
+                                    @((context as CovidCaseViewModel).Date.ToShortDateString())
+                                </Template>
+                            </GridColumn>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.TotalTestResults )" Title="Total Test Results"/>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizedCurrently )" Title="Currently Hospitalized"/>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.Positive )" />
+                            <GridColumn Field="@nameof(CovidCaseViewModel.Negative )" />
+                            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRate )" Title="Hospitalization Rate (%)" />
+                            <GridCommandColumn Width="300px">
+                                <GridCommandButton Command="Edit" Icon="FontIcon.Pencil">Edit</GridCommandButton>
+                                <GridCommandButton Command="Save" Icon="FontIcon.Save" ShowInEdit="true">Save</GridCommandButton>
+                                <GridCommandButton Command="Cancel" Icon="FontIcon.Cancel" ShowInEdit="true">Cancel</GridCommandButton>
+                                <GridCommandButton Command="Delete" Icon="FontIcon.Trash">Delete</GridCommandButton>
+                            </GridCommandColumn>
+                        </GridColumns>
+                    </TelerikGrid>
+                </Content>
+            </TileLayoutItem>
+            <TileLayoutItem HeaderText="Heatmap of Currently Hospitalized" RowSpan="4">
+                <Content>
+                    <div id="usHeatmap" style="height: 500px;"></div>
+                </Content>
+            </TileLayoutItem>
 
-  @*   <TelerikChart>
-        <ChartSeriesItems>
-            <ChartSeries Type="ChartSeriesType.Heatmap" Data="@HeatmapDataList">
-                <ChartSeriesItems>
-                    <ChartSeries Type="@ChartSeriesType.Heatmap"
-                                 Name="Hospitalization Rate by State"
-                                 Data="@HeatmapDataList"
-                                 XField="@(nameof(HeatmapDataViewModel.HospitalizationRate))"
-                                 
-                                 Field="@(nameof(HeatmapDataViewModel.Date))"
-                                 Color="blue">
-                        <ChartSeriesMarkers Type="@ChartSeriesMarkersType.RoundedRect"
-                                            BorderRadius="10">
-                        </ChartSeriesMarkers>
-                    </ChartSeries>
-                </ChartSeriesItems>
-               
-            </ChartSeries>
-        </ChartSeriesItems>
-    </TelerikChart> *@
-
-
-
+        </TileLayoutItems>
+    </TelerikTileLayout>
 }
+
 
 
 

@@ -2,9 +2,13 @@
 using HealthMonitor.Dashboard.ViewModels;
 using HealthMonitor.Framework;
 using HealthMonitor.Services.CQRS;
+using HealthMonitor.Services.CQRS.Commands;
 using HealthMonitor.Services.CQRS.Queries;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Telerik.Blazor;
 using Telerik.Blazor.Components;
+
 
 namespace HealthMonitor.Dashboard.Components.Pages
 {
@@ -14,16 +18,14 @@ namespace HealthMonitor.Dashboard.Components.Pages
         [Inject] public IBus Bus { get; set; }
         [Inject] public IMapper Mapper { get; set; }
         public List<CovidCaseViewModel> Data { get; set; }
-        private List<HeatmapDataViewModel> HeatmapDataList;
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+        private TelerikNotification NotificationRef { get; set; }
 
-        private bool _isDataLoaded = false;
 
-        protected override async Task OnInitializedAsync()
-        {
-            await LoadData();
+        private bool isRendered;
 
-            await base.OnInitializedAsync();
-        }
+        private bool _isDataLoaded;
+
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -34,41 +36,81 @@ namespace HealthMonitor.Dashboard.Components.Pages
                 StateHasChanged();
             }
 
+            if (firstRender)
+            {
+
+                var heatmapVms = Data.Where(c => c is
+                {
+                    Longitude: not null,
+                    Latitude: not null,
+                    Positive: not null and not 0,
+                    TotalTestResults: not 0
+                })
+                    .Select(c => new HeatMapViewModel
+                    {
+                        Longitude = c.Longitude,
+                        Latitude = c.Latitude,
+                        Intensity = Convert.ToDouble(c.HospitalizedCurrently)//(double)(c.Positive / c.TotalTestResults) * 100
+                    }).ToList();
+                var heatmapData = heatmapVms
+                    //.Where(data => data is { Latitude: not null, Longitude: not null, Intensity: not 0 }) 
+                    .Select(data => new object[]
+                    {
+                            data.Latitude,
+                            data.Longitude,
+                            data.Intensity
+                    })
+                    .ToList();
+                await JSRuntime.InvokeVoidAsync("initializeHeatmap", heatmapData);
+                isRendered = true;
+
+            }
         }
 
         private async Task LoadData()
         {
             var response = await Bus.Send(new GetAllCovidCases.Query());
-            Data = response.IsSuccess ? Mapper.Map <List<CovidData> ,List <CovidCaseViewModel>>(response.Data) : new();
+            Data = response.IsSuccess ? Mapper.Map<List<CovidData>, List<CovidCaseViewModel>>(response.Data) : new();
             Data.OrderByDescending(p => p.Positive);
-            //HeatmapDataList = Data
-            //    .Where(data => data.HospitalizationRate.HasValue) // Filter valid rates
-            //    .Select(data => new HeatmapDataViewModel
-            //    {
-            //        State = data.State,
-            //        Date = data.Date,
-            //        HospitalizationRate = data.HospitalizationRate
-            //    }).Take(10).ToList();
-
         }
 
-        //async Task Update(GridCommandEventArgs args)
-        //{
-        //    var index = Data.FindIndex(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
+        async Task Update(GridCommandEventArgs args)
+        {
+            //var index = Data.FindIndex(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
+            var covidCase = Mapper.Map<CovidCaseViewModel, CovidData>((CovidCaseViewModel)args.Item);
+            if (covidCase == null)
+            {
+                return;
+            }
+            var response = await Bus.Send(new UpdateCovidCase.Command(new CommandParameters<CovidData>()
+            {
+                Data = covidCase,
+                PageOrComponent = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).Segments.LastOrDefault(),
+                UserName = "SOmeUser"
+            }));
 
-        //    Data[index] = (CovidCaseViewModel)args.Item;
-        //}
+            if (response.IsSuccess)
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "Update Successful!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Success
+                });
+            }
+            await LoadData();
+            StateHasChanged();
+        }
 
-        //async Task Add(GridCommandEventArgs args)
-        //{
-        //    ((CovidCaseViewModel)args.Item).Id = Data.Any() ? Data.Max(item => item.Id) + 1 : 1;
+        async Task Add(GridCommandEventArgs args)
+        {
+            ((CovidCaseViewModel)args.Item).Id = Data.Any() ? Data.Max(item => item.Id) + 1 : 1;
 
-        //    Data.Add((CovidCaseViewModel)args.Item);
-        //}
+            Data.Add((CovidCaseViewModel)args.Item);
+        }
 
-        //async Task Delete(GridCommandEventArgs args)
-        //{
-        //    Data.RemoveAll(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
-        //}
+        async Task Delete(GridCommandEventArgs args)
+        {
+            Data.RemoveAll(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
+        }
     }
 }

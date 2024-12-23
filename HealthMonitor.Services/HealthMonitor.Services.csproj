@@ -17,8 +17,4 @@
     <ProjectReference Include="..\HealthMonitor.Framework\HealthMonitor.Framework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CQRS\Commands\" />
-  </ItemGroup>
-
 </Project>
