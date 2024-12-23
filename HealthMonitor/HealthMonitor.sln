@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMonitor.Services", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMonitor.Tests", "..\HealthMonitor.Tests\HealthMonitor.Tests.csproj", "{3961F82B-0BE4-4F48-8782-4E26229D7BA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMonitor.Web", "HealthMonitor.Web\HealthMonitor.Web.csproj", "{BA5B8955-FAE9-4247-8B26-84F46AADE83C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMonitor.Dashboard", "..\HealthMonitor.Dashboard\HealthMonitor.Dashboard.csproj", "{DE0C24CB-E95A-446F-8F1F-B512FE339BD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{3961F82B-0BE4-4F48-8782-4E26229D7BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3961F82B-0BE4-4F48-8782-4E26229D7BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3961F82B-0BE4-4F48-8782-4E26229D7BA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA5B8955-FAE9-4247-8B26-84F46AADE83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA5B8955-FAE9-4247-8B26-84F46AADE83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA5B8955-FAE9-4247-8B26-84F46AADE83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA5B8955-FAE9-4247-8B26-84F46AADE83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE0C24CB-E95A-446F-8F1F-B512FE339BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE0C24CB-E95A-446F-8F1F-B512FE339BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE0C24CB-E95A-446F-8F1F-B512FE339BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE0C24CB-E95A-446F-8F1F-B512FE339BD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

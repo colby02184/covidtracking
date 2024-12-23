@@ -1,5 +1,5 @@
-using HealthMonitor.Web;
-using HealthMonitor.Web.Components;
+using HealthMonitor.Dashboard;
+using HealthMonitor.Dashboard.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,6 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.SetMiddlewareServices(builder.Configuration);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

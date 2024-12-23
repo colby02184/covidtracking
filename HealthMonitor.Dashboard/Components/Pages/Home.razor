@@ -1,0 +1,32 @@
+﻿@page "/"
+@using HealthMonitor.Dashboard.ViewModels
+
+<div class="covid-summary">
+    @if (!_isDataLoaded)
+    {
+        <p>Loading data, please wait...</p>
+    }
+    else
+    {
+        <div class="summary-cards horizontal">
+            <div class="metric-card">
+                <h3>Total Positive Cases</h3>
+                <p>@(CovidSummary.Positive?.ToString("N0") ?? "N/A")</p>
+            </div>
+            <div class="metric-card">
+                <h3>Total Deaths</h3>
+                <p>@(CovidSummary.Death?.ToString("N0") ?? "N/A")</p>
+            </div>
+            <div class="metric-card">
+                <h3>Currently Hospitalized</h3>
+                <p>@(CovidSummary.HospitalizedCurrently?.ToString("N0") ?? "N/A")</p>
+            </div>
+            <div class="metric-card">
+                <h3>Total Test Results</h3>
+                <p>@(CovidSummary.TotalTestResults?.ToString("N0") ?? "N/A")</p>
+            </div>
+        </div>
+    }
+    
+</div>
+

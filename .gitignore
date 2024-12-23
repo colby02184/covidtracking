@@ -74,9 +74,6 @@ AppPackages/
 # Uncomment if using npm:
 # node_modules/
 
-# Publish output
-wwwroot/
-*.html
 
 # Windows image file caches
 Thumbs.db

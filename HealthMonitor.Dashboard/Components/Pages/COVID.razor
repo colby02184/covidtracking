@@ -1,0 +1,36 @@
+
+@page "/Covid"
+@using HealthMonitor.Dashboard.ViewModels
+
+<TelerikGrid Data="@Data"
+             Pageable="true"
+             PageSize="10"
+             Sortable="true"
+             SortMode="@SortMode.Single"
+             FilterMode="@GridFilterMode.FilterMenu"
+             Resizable="true"
+             Groupable="true"
+             SelectionMode="GridSelectionMode.Single"
+             Reorderable="true"
+             EditMode="@GridEditMode.Inline">
+            @*  OnUpdate="@Update"
+             OnCreate="@Add"
+             OnDelete="@Delete"> *@
+    <GridToolBarTemplate>
+        <GridCommandButton Command="Add" Icon="FontIcon.Plus">Add</GridCommandButton>
+    </GridToolBarTemplate>
+    <GridColumns>
+        <GridColumn Field="@nameof(CovidCaseViewModel.State)" />
+        <GridColumn Field="@nameof(CovidCaseViewModel.Date)" />
+        <GridColumn Field="@nameof(CovidCaseViewModel.TotalCasesFormatted )" />
+        <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRateFormatted )" />
+         <GridCommandColumn Width="300px">
+            <GridCommandButton Command="Edit" Icon="FontIcon.Pencil">Edit</GridCommandButton>
+            <GridCommandButton Command="Save" Icon="FontIcon.Save" ShowInEdit="true">Save</GridCommandButton>
+            <GridCommandButton Command="Cancel" Icon="FontIcon.Cancel" ShowInEdit="true">Cancel</GridCommandButton>
+            <GridCommandButton Command="Delete" Icon="FontIcon.Trash">Delete</GridCommandButton>
+        </GridCommandColumn>
+    </GridColumns>
+</TelerikGrid>
+
+

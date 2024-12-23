@@ -1,18 +1,20 @@
 ﻿using System.Reflection;
+using HealthMonitor.Data;
 using HealthMonitor.Services.CQRS;
-using HealthMonitor.Services.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HealthMonitor.Services
 {
     public static class ServiceMiddlewareServices
     {
-        public static IServiceCollection SetServiceMiddlewareServices(this IServiceCollection services)
+        public static IServiceCollection SetServiceMiddlewareServices(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            services.AddScoped<IBus, Bus>();
             
+            services.SetDataMiddlewareServices(configuration);
+
 
             return services;
         }

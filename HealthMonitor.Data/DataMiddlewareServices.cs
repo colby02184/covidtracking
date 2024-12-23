@@ -10,12 +10,10 @@ namespace HealthMonitor.Data
     {
         public static IServiceCollection SetDataMiddlewareServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddDbContext<DemoDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("CovidInMemoryDb"));
             services.AddScoped<ICovidCaseRepository, CovidCaseRepository>();
-
+            services.AddScoped<ICovidSummaryService, CovidSummaryService>();
+            
             return services;
         }
 

@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
+using HealthMonitor.Dashboard.ViewModels;
 using HealthMonitor.Framework;
 using HealthMonitor.Services.CQRS;
 using HealthMonitor.Services.CQRS.Queries;
-using HealthMonitor.Web.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
 using Telerik.Blazor.Components;
 
-namespace HealthMonitor.Web.Components.Pages
+namespace HealthMonitor.Dashboard.Components.Pages
 {
     public partial class COVID : ComponentBase
     {
