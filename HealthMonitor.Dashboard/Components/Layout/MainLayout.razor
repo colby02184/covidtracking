@@ -11,7 +11,11 @@
         </AppBarSection>
         <AppBarSpacer Size="var(--kendo-spacing-1)" />
         <AppBarSection>
-            <h1>Covid Tracking Dashboard</h1>
+            <span>Covid Tracking Dashboard</span>
+        </AppBarSection>
+        <AppBarSpacer></AppBarSpacer>
+        <AppBarSection>
+            <LoginDisplay />
         </AppBarSection>
     </TelerikAppBar>
     <TelerikDrawer Data="@NavigablePages"
@@ -21,7 +25,6 @@
                    @ref="@DrawerRef"
                    @bind-SelectedItem="@SelectedItem">
         <DrawerContent>
-            @* This layout is now in the drawer Content, and is very similar to the default template layout *@
             <div class="main">
                 @Body
             </div>

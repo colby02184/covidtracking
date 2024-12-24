@@ -1,6 +1,7 @@
 
-@page "/Covid"
+@page "/covid"
 @using HealthMonitor.Dashboard.ViewModels
+@using FluentValidation
 
 <TelerikNotification @ref="NotificationRef" />
 
@@ -29,25 +30,32 @@
                                  Groupable="true"
                                  SelectionMode="GridSelectionMode.Single"
                                  Reorderable="true"
-                                 EditMode="@GridEditMode.Inline"
+                                 EditMode="@GridEditMode.Incell"
                                  OnUpdate="@Update"
                                  OnCreate="@Add"
                                  OnDelete="@Delete">
+                        <GridSettings>
+                            <GridValidationSettings>
+                                <ValidatorTemplate>
+                                    <FluentValidationValidator Validator="@Validator" />
+                                </ValidatorTemplate>
+                            </GridValidationSettings>
+                        </GridSettings>
                         <GridToolBarTemplate>
                             <GridCommandButton Command="Add" Icon="FontIcon.Plus">Add</GridCommandButton>
                         </GridToolBarTemplate>
                         <GridColumns>
-                            <GridColumn Field="@nameof(CovidCaseViewModel.State)" />
+                            <GridColumn Field="@nameof(CovidCaseViewModel.State)"/>
                             <GridColumn Field="@nameof(CovidCaseViewModel.Date)">
                                 <Template>
                                     @((context as CovidCaseViewModel).Date.ToShortDateString())
                                 </Template>
                             </GridColumn>
-                            <GridColumn Field="@nameof(CovidCaseViewModel.TotalTestResults )" Title="Total Test Results"/>
-                            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizedCurrently )" Title="Currently Hospitalized"/>
-                            <GridColumn Field="@nameof(CovidCaseViewModel.Positive )" />
-                            <GridColumn Field="@nameof(CovidCaseViewModel.Negative )" />
-                            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRate )" Title="Hospitalization Rate (%)" />
+                            <GridColumn Field="@nameof(CovidCaseViewModel.TotalTestResults)" Title="Total Test Results"/>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizedCurrently)" Title="Currently Hospitalized"/>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.Positive)"/>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.Negative)"/>
+                            <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRate)" Title="Hospitalization Rate (%)"/>
                             <GridCommandColumn Width="300px">
                                 <GridCommandButton Command="Edit" Icon="FontIcon.Pencil">Edit</GridCommandButton>
                                 <GridCommandButton Command="Save" Icon="FontIcon.Save" ShowInEdit="true">Save</GridCommandButton>

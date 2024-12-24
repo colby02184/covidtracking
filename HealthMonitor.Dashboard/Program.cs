@@ -5,12 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTelerikBlazor();
 
-
+builder.Services.AddControllers();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.SetMiddlewareServices(builder.Configuration);
+builder.Services.SetMiddlewareServices(builder.Configuration, builder.Environment);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +24,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseAuthentication();
+app.MapControllers();
 app.UseAntiforgery();
 
 

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Telerik.Blazor;
 using Telerik.Blazor.Components;
+using FluentValidation;
+using HealthMonitor.Dashboard.Validators;
 
 
 namespace HealthMonitor.Dashboard.Components.Pages
@@ -20,6 +22,7 @@ namespace HealthMonitor.Dashboard.Components.Pages
         public List<CovidCaseViewModel> Data { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
         private TelerikNotification NotificationRef { get; set; }
+        private CovidCaseViewModelValidator Validator = new();
 
 
         private bool isRendered;
@@ -80,6 +83,18 @@ namespace HealthMonitor.Dashboard.Components.Pages
             var covidCase = Mapper.Map<CovidCaseViewModel, CovidData>((CovidCaseViewModel)args.Item);
             if (covidCase == null)
             {
+                return;
+            }
+            var validator = new CovidCaseViewModelValidator();
+            var validationResult = await validator.ValidateAsync((CovidCaseViewModel)args.Item);
+            if (!validationResult.IsValid)
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "Validation Failed!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Error
+                });
+                args.IsCancelled = true;
                 return;
             }
             var response = await Bus.Send(new UpdateCovidCase.Command(new CommandParameters<CovidData>()
