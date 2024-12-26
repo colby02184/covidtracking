@@ -12,18 +12,31 @@ namespace HealthMonitor.Framework
     {
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.String)
+            switch (reader.TokenType)
             {
-                var dateString = reader.GetString();
-                return ParseDate(dateString);
+                case JsonTokenType.String:
+                {
+                    var dateString = reader.GetString();
+                    return ParseDate(dateString);
+                }
+                case JsonTokenType.Number:
+                {
+                    var dateNumber = reader.GetInt64();
+                    return ParseDate(dateNumber.ToString());
+                }
+                case JsonTokenType.None:
+                case JsonTokenType.StartObject:
+                case JsonTokenType.EndObject:
+                case JsonTokenType.StartArray:
+                case JsonTokenType.EndArray:
+                case JsonTokenType.PropertyName:
+                case JsonTokenType.Comment:
+                case JsonTokenType.True:
+                case JsonTokenType.False:
+                case JsonTokenType.Null:
+                default:
+                    throw new JsonException($"Unexpected token type: {reader.TokenType}");
             }
-            else if (reader.TokenType == JsonTokenType.Number)
-            {
-                var dateNumber = reader.GetInt64();
-                return ParseDate(dateNumber.ToString());
-            }
-
-            throw new JsonException($"Unexpected token type: {reader.TokenType}");
         }
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMonitor.Dashboard.Controllers
 {
-    public class LoginController : Controller
+    public class AuthController : ControllerBase
     {
-        [HttpGet("Login")]
+        [HttpGet("login")]
         public IActionResult Login([FromQuery] string returnUrl)
         {
             var redirectUrl = returnUrl is null ? Url.Content("~/") : "/" + returnUrl;
@@ -17,7 +17,7 @@ namespace HealthMonitor.Dashboard.Controllers
             return Challenge();
         }
 
-        [HttpGet("Logout")]
+        [HttpGet("logout")]
         public async Task<IActionResult> Logout([FromQuery] string returnUrl)
         {
             var redirectUrl = returnUrl is null ? Url.Content("~/") : "/" + returnUrl;

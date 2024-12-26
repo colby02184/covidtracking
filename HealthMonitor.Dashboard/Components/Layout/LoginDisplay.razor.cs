@@ -20,7 +20,7 @@ namespace HealthMonitor.Dashboard.Components.Layout
 
         private void HandleLogout(MouseEventArgs obj)
         {
-            NavigationManager.NavigateTo($"Logout?returnUrl={ReturnUrl}");
+            NavigationManager.NavigateTo($"Logout?returnUrl={ReturnUrl}", forceLoad: true);
         }
     }
 }
