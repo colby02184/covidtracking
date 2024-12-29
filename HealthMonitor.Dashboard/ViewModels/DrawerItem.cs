@@ -1,4 +1,5 @@
-﻿using Telerik.SvgIcons;
+﻿using Microsoft.AspNetCore.Components;
+using Telerik.SvgIcons;
 
 namespace HealthMonitor.Dashboard.ViewModels
 {
@@ -8,6 +9,7 @@ namespace HealthMonitor.Dashboard.ViewModels
         public string Url { get; set; }
         public ISvgIcon Icon { get; set; }
         public bool Separator { get; set; }
+        public RenderFragment? CustomIcon { get; set; }
         public static DrawerItem None() => new();
     }
 }

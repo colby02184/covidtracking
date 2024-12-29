@@ -1,16 +1,26 @@
 ﻿
 <AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage">Hello, @context.User.Identity.Name!</a>
-        <TelerikButton @onclick="HandleLogout">
-            <TelerikSvgIcon Icon="@SvgIcon.Logout" >Logout</TelerikSvgIcon>
-            Logout
+        <TelerikButton 
+            @onclick="HandleProfile"
+            FillMode="@ThemeConstants.Button.FillMode.Link"
+            Size="@ThemeConstants.Button.Size.Large" 
+            Icon="@SvgIcon.User">
+            Hello, @context.User.Identity?.Name!
+        </TelerikButton>
+        <TelerikButton 
+            @onclick="HandleLogout"
+            FillMode="@ThemeConstants.Button.FillMode.Link"
+                       Size="@ThemeConstants.Button.Size.Large">
+            <TelerikSvgIcon Icon="@SvgIcon.Logout" /> Logout
         </TelerikButton>
     </Authorized>
     <NotAuthorized>
-        <TelerikButton @onclick="HandleLogout">
-            <TelerikSvgIcon Icon="@SvgIcon.Login">Login</TelerikSvgIcon>
-            Logout
+        <TelerikButton
+            @onclick="HandleLogin" 
+            FillMode="@ThemeConstants.Button.FillMode.Link"
+                       Size="@ThemeConstants.Button.Size.Large">
+            <TelerikSvgIcon Icon="@SvgIcon.Login" /> Login
         </TelerikButton>
     </NotAuthorized>
 </AuthorizeView>

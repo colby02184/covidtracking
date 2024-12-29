@@ -8,7 +8,7 @@ namespace HealthMonitor.Dashboard.Components.Layout
 
         protected override async Task OnInitializedAsync()
         {
-            var returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+            var returnUrl = NavigationManager.ToBaseRelativePath(Uri.EscapeDataString(NavigationManager.Uri));
             NavigationManager.NavigateTo($"login?returnUrl={returnUrl}", true);
         }
     }

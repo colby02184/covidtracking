@@ -1,6 +1,7 @@
 
 @page "/covid"
 @using HealthMonitor.Dashboard.ViewModels
+@using Blazored.FluentValidation
 @using FluentValidation
 
 <TelerikNotification @ref="NotificationRef" />
@@ -30,7 +31,8 @@
                                  Groupable="true"
                                  SelectionMode="GridSelectionMode.Single"
                                  Reorderable="true"
-                                 EditMode="@GridEditMode.Incell"
+                                 EditMode="@GridEditMode.Inline"
+                                 Height="500px"
                                  OnUpdate="@Update"
                                  OnCreate="@Add"
                                  OnDelete="@Delete">
@@ -45,8 +47,8 @@
                             <GridCommandButton Command="Add" Icon="FontIcon.Plus">Add</GridCommandButton>
                         </GridToolBarTemplate>
                         <GridColumns>
-                            <GridColumn Field="@nameof(CovidCaseViewModel.State)"/>
-                            <GridColumn Field="@nameof(CovidCaseViewModel.Date)">
+                            <GridColumn Field="@nameof(CovidCaseViewModel.State)" Editable="false" />
+                            <GridColumn Field="@nameof(CovidCaseViewModel.Date)" Editable="false">
                                 <Template>
                                     @((context as CovidCaseViewModel).Date.ToShortDateString())
                                 </Template>
@@ -56,7 +58,7 @@
                             <GridColumn Field="@nameof(CovidCaseViewModel.Positive)"/>
                             <GridColumn Field="@nameof(CovidCaseViewModel.Negative)"/>
                             <GridColumn Field="@nameof(CovidCaseViewModel.HospitalizationRate)" Title="Hospitalization Rate (%)"/>
-                            <GridCommandColumn Width="300px">
+                            <GridCommandColumn>
                                 <GridCommandButton Command="Edit" Icon="FontIcon.Pencil">Edit</GridCommandButton>
                                 <GridCommandButton Command="Save" Icon="FontIcon.Save" ShowInEdit="true">Save</GridCommandButton>
                                 <GridCommandButton Command="Cancel" Icon="FontIcon.Cancel" ShowInEdit="true">Cancel</GridCommandButton>
@@ -71,7 +73,6 @@
                     <div id="usHeatmap" style="height: 500px;"></div>
                 </Content>
             </TileLayoutItem>
-
         </TileLayoutItems>
     </TelerikTileLayout>
 }

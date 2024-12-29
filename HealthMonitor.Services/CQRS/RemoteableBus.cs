@@ -2,25 +2,20 @@
 
 namespace HealthMonitor.Services.CQRS
 {
-    public class RemoteableBus : Bus
+    public class RemoteableBus(IMediator mediator, MessageGatewayPublisher gateway) : Bus(mediator)
     {
-        private PublisherGateway _gateway;
-
-        public RemoteableBus(IMediator mediator, PublisherGateway gateway) : base(mediator)
-        {
-            _gateway = gateway;
-        }
-
         public override async Task<TResponse> Send<TResponse>(IRequest<TResponse> request)
         {
-            if (request is IRemoteableRequest remotableRequest)
+            switch (request)
             {
-                MessagePayload result = await _gateway.Publish(remotableRequest) ?? throw new InvalidOperationException();
-                TResponse returnEvent = result.GetBodyObject<TResponse>();
-                return returnEvent;
-            } 
-
-            return await base.Send(request);
+                case IRemoteableRequest remoteableRequest:
+                {
+                    var result = await gateway.Publish(remoteableRequest) ?? throw new InvalidOperationException();
+                    return result.GetBodyObject<TResponse>(); 
+                }
+                default:
+                    return await base.Send(request);
+            }
         }
     }
 }

@@ -12,21 +12,54 @@
         <div class="summary-cards horizontal">
             <div class="metric-card">
                 <h3>Total Positive Cases</h3>
-                <p>@(CovidSummary.Positive?.ToString("N0") ?? "N/A")</p>
+                <p>@(_covidSummary?.Positive?.ToString("N0") ?? "N/A")</p>
+            </div>
+            <div class="metric-card">
+                <h3>Total Negative Cases</h3>
+                <p>@(_covidSummary?.Negative?.ToString("N0") ?? "N/A")</p>
             </div>
             <div class="metric-card">
                 <h3>Total Deaths</h3>
-                <p>@(CovidSummary.Death?.ToString("N0") ?? "N/A")</p>
+                <p>@(_covidSummary?.Death?.ToString("N0") ?? "N/A")</p>
             </div>
             <div class="metric-card">
                 <h3>Currently Hospitalized</h3>
-                <p>@(CovidSummary.HospitalizedCurrently?.ToString("N0") ?? "N/A")</p>
+                <p>@(_covidSummary?.HospitalizedCurrently?.ToString("N0") ?? "N/A")</p>
             </div>
             <div class="metric-card">
                 <h3>Total Test Results</h3>
-                <p>@(CovidSummary.TotalTestResults?.ToString("N0") ?? "N/A")</p>
+                <p>@(_covidSummary?.TotalTestResults?.ToString("N0") ?? "N/A")</p>
             </div>
         </div>
     }
 </div>
-
+@* 
+@if (_isDataLoaded)
+{
+    <TelerikTileLayout Columns="2"
+                       ColumnWidth="300px"
+                       RowHeight="150px"
+                       Resizable="true"
+                       Reorderable="true">
+        <TileLayoutItems>
+            <TileLayoutItem HeaderText="">
+                <HeaderTemplate>
+                    <strong>Total Positive Cases</strong> 
+                </HeaderTemplate>
+                <Content>
+                    <p>@(_covidSummary?.Positive?.ToString("N0") ?? "N/A")</p>
+                </Content>
+            </TileLayoutItem>
+            <TileLayoutItem HeaderText="Total Deaths">
+                <Content>@(_covidSummary?.Death?.ToString("N0") ?? "N/A").</Content>
+            </TileLayoutItem>
+            <TileLayoutItem HeaderText="Currently Hospitalized" >
+                <Content>@(_covidSummary?.HospitalizedCurrently?.ToString("N0") ?? "N/A")</Content>
+            </TileLayoutItem>
+            <TileLayoutItem HeaderText="Total Test Results">
+                <Content>@(_covidSummary?.TotalTestResults?.ToString("N0") ?? "N/A")</Content>
+            </TileLayoutItem>
+        </TileLayoutItems>
+    </TelerikTileLayout>
+}
+ *@

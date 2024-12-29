@@ -9,12 +9,12 @@ namespace HealthMonitor.Dashboard.Components.Pages
 {
     public partial class Home : ComponentBase
     {
-        [Inject] private NavigationManager NavigationManager { get; set; }
-        [Inject] public IBus Bus { get; set; }
-        [Inject] public IMapper Mapper { get; set; }
-        private bool _isDataLoaded = false;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] public IBus Bus { get; set; } = null!;
+        [Inject] public IMapper Mapper { get; set; } = null!;
+        private bool _isDataLoaded;
 
-        private CovidSummaryViewModel? CovidSummary;
+        private CovidSummaryViewModel? _covidSummary = new();
 
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -22,7 +22,7 @@ namespace HealthMonitor.Dashboard.Components.Pages
             if (!_isDataLoaded)
             {
                 var response = await Bus.Send(new GetCovidSummary.Query());
-                CovidSummary = response.IsSuccess ? Mapper.Map<CovidSummaryViewModel>(response.Data) : null;
+                _covidSummary = response.IsSuccess ? Mapper.Map<CovidSummaryViewModel>(response.Data) : null;
                 _isDataLoaded = true;
                 StateHasChanged();
             }

@@ -13,6 +13,9 @@ namespace HealthMonitor.Dashboard.Validators
                 .WithMessage("Only two characters allowed")
                 .Matches("^[a-zA-Z]+$")
                 .WithMessage("State must contain only letters.");
+            RuleFor(item => item.HospitalizationRate).NotEmpty()
+                .Must(h => h.Value > 0)
+                .WithMessage("Hospitalization cannot be negative.");
         }
     }
 }
