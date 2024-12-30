@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using HealthMonitor.Dashboard.ViewModels
 
+<TelerikNotification @ref="NotificationRef" />
 
 <div class="covid-summary">
     <TelerikLoader Visible="@(!_isDataLoaded)"

@@ -19,7 +19,7 @@
                        Resizable="true"
                        Reorderable="true">
         <TileLayoutItems>
-            <TileLayoutItem HeaderText="COVID Data" RowSpan="4">
+            <TileLayoutItem HeaderText="Covid Data" RowSpan="4">
                 <Content>
                     <TelerikGrid Data="@Data"
                                  Pageable="true"
@@ -39,7 +39,7 @@
                         <GridSettings>
                             <GridValidationSettings>
                                 <ValidatorTemplate>
-                                    <FluentValidationValidator Validator="@Validator" />
+                                    <FluentValidationValidator Validator="@_validator" />
                                 </ValidatorTemplate>
                             </GridValidationSettings>
                         </GridSettings>

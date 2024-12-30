@@ -8,24 +8,23 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Telerik.Blazor;
 using Telerik.Blazor.Components;
-using FluentValidation;
 using HealthMonitor.Dashboard.Validators;
 
 
 namespace HealthMonitor.Dashboard.Components.Pages
 {
-    public partial class COVID : ComponentBase
+    public partial class Covid : ComponentBase
     {
-        [Inject] private NavigationManager NavigationManager { get; set; }
-        [Inject] public IBus Bus { get; set; }
-        [Inject] public IMapper Mapper { get; set; }
-        public List<CovidCaseViewModel> Data { get; set; }
-        [Inject] private IJSRuntime JSRuntime { get; set; }
-        private TelerikNotification NotificationRef { get; set; }
-        private CovidCaseViewModelValidator Validator = new();
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] public IBus Bus { get; set; } = null!;
+        [Inject] public IMapper Mapper { get; set; } = null!;
+        public List<CovidCaseViewModel> Data { get; set; } = new();
+        [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
+        private TelerikNotification NotificationRef { get; set; } = null!;
+        private readonly CovidCaseViewModelValidator _validator = new();
 
 
-        private bool isRendered;
+        private bool _isRendered;
 
         private bool _isDataLoaded;
 
@@ -64,20 +63,30 @@ namespace HealthMonitor.Dashboard.Components.Pages
                             data.Intensity
                     })
                     .ToList();
-                await JSRuntime.InvokeVoidAsync("initializeHeatmap", heatmapData);
-                isRendered = true;
+                await JsRuntime.InvokeVoidAsync("initializeHeatmap", heatmapData);
+                _isRendered = true;
 
             }
         }
 
         private async Task LoadData()
         {
-            var response = await Bus.Send(new GetAllCovidCases.Query());
-            Data = response.IsSuccess ? Mapper.Map<List<CovidData>, List<CovidCaseViewModel>>(response.Data) : new();
+            var result = await Bus.Send(new GetAllCovidCases.Query());
+            if (!result.IsSuccess)
+            {
+                NotificationRef.Show(new NotificationModel
+                {
+                    Text = "Something went wrong retrieving Covid cases!",
+                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Error
+                });
+                return;
+            }
+
+            Data = Mapper.Map<List<CovidData>, List<CovidCaseViewModel>>(result.Data ?? new ());
             Data = Data.OrderByDescending(p => p.Positive).ToList();
         }
 
-        async Task Update(GridCommandEventArgs args)
+        private async Task Update(GridCommandEventArgs args)
         {
             //var index = Data.FindIndex(item => item.Id.Equals(((CovidCaseViewModel)args.Item).Id));
             var covidCase = Mapper.Map<CovidCaseViewModel, CovidData>((CovidCaseViewModel)args.Item);

@@ -16,7 +16,7 @@ namespace HealthMonitor.Dashboard.Extensions
     {
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
-            AddMiddlewareServices(services);
+            AddThirdPartyServices(services);
            
             AddHttpClientServices(services, configuration);
 
@@ -29,7 +29,7 @@ namespace HealthMonitor.Dashboard.Extensions
             return services;
         }
 
-        private static void AddMiddlewareServices(IServiceCollection services)
+        private static void AddThirdPartyServices(IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

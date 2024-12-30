@@ -142,7 +142,7 @@ body {
     overflow-x: auto;
 }
 
-.summary-cards {
+/*.summary-cards {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -151,9 +151,9 @@ body {
     margin: 20px auto;
     padding: 10px;
     flex-wrap: wrap;
-}
+}*/
 
-.metric-card {
+/*.metric-card {
     background: #f9f9f9;
     padding: 15px;
     border: 1px solid #ddd;
@@ -190,4 +190,4 @@ body {
 
 .metric-card {
     border: 1px dashed transparent;
-}
+}*/

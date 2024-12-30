@@ -1,6 +1,5 @@
 ﻿using HealthMonitor.Services.CQRS;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMonitor.Api.Controllers
