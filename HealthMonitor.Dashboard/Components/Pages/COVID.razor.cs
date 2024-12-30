@@ -71,7 +71,7 @@ namespace HealthMonitor.Dashboard.Components.Pages
         {
             var response = await Bus.Send(new GetAllCovidCases.Query());
             Data = response.IsSuccess ? Mapper.Map<List<CovidData>, List<CovidCaseViewModel>>(response.Data) : new();
-            Data.OrderByDescending(p => p.Positive);
+            Data = Data.OrderByDescending(p => p.Positive).ToList();
         }
 
         async Task Update(GridCommandEventArgs args)
