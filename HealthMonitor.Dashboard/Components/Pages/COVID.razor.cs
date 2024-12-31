@@ -22,10 +22,7 @@ namespace HealthMonitor.Dashboard.Components.Pages
         [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
         private TelerikNotification NotificationRef { get; set; } = null!;
         private readonly CovidCaseViewModelValidator _validator = new();
-
-
         private bool _isRendered;
-
         private bool _isDataLoaded;
 
 
@@ -40,29 +37,21 @@ namespace HealthMonitor.Dashboard.Components.Pages
 
             if (firstRender)
             {
-
-                var heatmapVms = Data.Where(c => c is
-                {
-                    Longitude: not null,
-                    Latitude: not null,
-                    Positive: not null and not 0,
-                    TotalTestResults: not 0
-                })
-                    .Select(c => new HeatMapViewModel
+                var heatmapData = Data
+                    .Where(c =>
+                        c.Longitude is not null &&
+                        c.Latitude is not null &&
+                        c.Positive is not null &&
+                        c.Positive != 0 &&
+                        c.TotalTestResults != 0)
+                    .Select(c => new object[]
                     {
-                        Longitude = c.Longitude,
-                        Latitude = c.Latitude,
-                        Intensity = Convert.ToDouble(c.HospitalizedCurrently)//(double)(c.Positive / c.TotalTestResults) * 100
-                    }).ToList();
-                var heatmapData = heatmapVms
-                    //.Where(data => data is { Latitude: not null, Longitude: not null, Intensity: not 0 }) 
-                    .Select(data => new object[]
-                    {
-                            data.Latitude,
-                            data.Longitude,
-                            data.Intensity
+                        c.Latitude,
+                        c.Longitude,
+                        Convert.ToDouble(c.HospitalizedCurrently)
                     })
                     .ToList();
+
                 await JsRuntime.InvokeVoidAsync("initializeHeatmap", heatmapData);
                 _isRendered = true;
 
@@ -82,7 +71,7 @@ namespace HealthMonitor.Dashboard.Components.Pages
                 return;
             }
 
-            Data = Mapper.Map<List<CovidData>, List<CovidCaseViewModel>>(result.Data ?? new ());
+            Data = Mapper.Map<List<CovidData>, List<CovidCaseViewModel>>(result.Data ?? new());
             Data = Data.OrderByDescending(p => p.Positive).ToList();
         }
 

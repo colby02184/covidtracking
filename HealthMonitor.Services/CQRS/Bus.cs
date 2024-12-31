@@ -2,20 +2,13 @@
 
 namespace HealthMonitor.Services.CQRS
 {
-    public class Bus : IBus
+    public class Bus(ISender sender) : IBus
     {
-        private readonly IMediator _mediator;
-
-        public Bus(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         public virtual Task<TResponse> Send<TResponse>(IRequest<TResponse> request)
         {
             try
             {
-                return _mediator.Send(request);
+                return sender.Send(request);
             }
             catch (Exception e)
             {
@@ -28,7 +21,7 @@ namespace HealthMonitor.Services.CQRS
         {
             try
             {
-                return _mediator.Send(request);
+                return sender.Send(request);
             }
             catch (Exception e)
             {

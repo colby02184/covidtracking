@@ -2,7 +2,7 @@
 
 namespace HealthMonitor.Services.CQRS
 {
-    public class RemoteableBus(IMediator mediator, MessageGatewayPublisher gateway) : Bus(mediator)
+    public class RemoteableBus(ISender sender, MessageGatewayPublisher gateway) : Bus(sender)
     {
         public override async Task<TResponse> Send<TResponse>(IRequest<TResponse> request)
         {
