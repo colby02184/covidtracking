@@ -1,7 +1,7 @@
 ﻿namespace HealthMonitor.Services.CQRS
 {
     /// <summary>
-    /// Represents a standardized response structure for API responses and command/query results.
+    /// Represents a standardized response structure for API responses.
     /// </summary>
     /// <typeparam name="T">The type of the data being returned in the response.</typeparam>
     public class Response<T>
@@ -64,7 +64,7 @@
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or sets the error code (optional).
+        /// Gets or sets an optional error code.
         /// </summary>
         public string Code { get; set; }
     }
