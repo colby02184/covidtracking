@@ -164,22 +164,21 @@ namespace HealthMonitor.Dashboard.Components.Pages
                 UserName = "SomeUser"
             }));
 
-            if (response.IsSuccess)
-            {
-                NotificationRef.Show(new NotificationModel
-                {
-                    Text = "Delete Successful!",
-                    ThemeColor = ThemeConstants.AppBar.ThemeColor.Success
-                });
-            }
-            else
+            if (!response.IsSuccess)
             {
                 NotificationRef.Show(new NotificationModel
                 {
                     Text = "Something went wrong!",
                     ThemeColor = ThemeConstants.AppBar.ThemeColor.Error
                 });
+                StateHasChanged();
+                return;
             }
+            NotificationRef.Show(new NotificationModel
+            {
+                Text = "Delete Successful!",
+                ThemeColor = ThemeConstants.AppBar.ThemeColor.Success
+            });
             await LoadData();
             StateHasChanged();
         }

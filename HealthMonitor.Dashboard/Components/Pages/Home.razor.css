@@ -34,17 +34,17 @@
     max-width: 300px;
 }
 
-.metric-card h3 {
-    font-size: 1.2rem;
-    color: #0078d7;
-    margin-bottom: 10px;
-}
+    .metric-card h3 {
+        font-size: 1.2rem;
+        color: #0078d7;
+        margin-bottom: 10px;
+    }
 
-.metric-card p {
-    font-size: 1.5rem;
-    color: #333;
-    margin: 0;
-}
+    .metric-card p {
+        font-size: 1.5rem;
+        color: #333;
+        margin: 0;
+    }
 
 @media (max-width: 768px) {
     .summary-cards {
@@ -60,4 +60,13 @@
     border: 1px solid transparent;
 }
 
-.metric-card { border: 1px dashed transparent; }
+.metric-card {
+    border: 1px dashed transparent;
+}
+
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensures it takes up the full TileLayoutItem space */
+}
