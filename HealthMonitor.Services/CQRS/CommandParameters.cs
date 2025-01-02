@@ -1,7 +1,7 @@
 ﻿namespace HealthMonitor.Services.CQRS
 {
     /// <summary>
-    /// Represents the parameters required for executing a command.
+    /// Represents the parameters required for executing a commands.
     /// </summary>
     /// <typeparam name="T">The type of data associated with the command.</typeparam>
     public class CommandParameters<T>
@@ -17,7 +17,7 @@
         public string? PageOrComponent { get; set; }
 
         /// <summary>
-        /// Gets or sets the key to identify specific instances or records (if applicable).
+        /// Gets or sets a key that can be used as a tag to aid in searching with in logs files.
         /// </summary>
         public string Key { get; set; }
 
@@ -27,7 +27,7 @@
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or sets the original data before the command modifies it (useful for auditing).
+        /// Gets or sets the original data before the command modifies it.
         /// </summary>
         public T OriginalData { get; set; }
 
