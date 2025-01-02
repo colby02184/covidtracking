@@ -77,7 +77,6 @@ namespace HealthMonitor.Data
                 var jsonDocument = JsonDocument.Parse(json);
                 var root = jsonDocument.RootElement;
 
-                // not sure why I have to do this??
                 if (root.ValueKind == JsonValueKind.Array && root.GetArrayLength() > 0)
                 {
                     root = root[0]; 
