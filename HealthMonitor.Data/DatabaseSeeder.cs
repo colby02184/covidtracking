@@ -9,7 +9,6 @@ namespace HealthMonitor.Data
     {
         public async Task SeedDatabaseAsync()
         {
-            // Fetch data from the API
             var response = await httpClient.GetAsync("https://api.covidtracking.com/v1/states/daily.json");
             response.EnsureSuccessStatusCode();
 
